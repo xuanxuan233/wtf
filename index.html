@@ -18,7 +18,16 @@
 
         /* 主页面样式 */
         .home-page {
-            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            width: 800px;
+            height: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .home-page h1 {
@@ -43,36 +52,15 @@
             background-color: #ff4a3d;
         }
 
-        /* 游戏页面样式 */
-        .game-page {
-            display: none;
+        .pet-image {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
             text-align: center;
         }
 
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 20px;
-            width: 500px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .title {
-            font-size: 28px;
-            font-weight: bold;
-            text-align: center;
-            color: #ff6f61;
-            margin-bottom: 20px;
-        }
-
-        .pet-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .pet-info img {
-            width: 120px;
-            height: 120px;
+        .pet-image img {
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             border: 4px solid #ff6f61;
             animation: bounce 2s infinite;
@@ -85,7 +73,9 @@
         }
 
         .pet-status {
-            margin-bottom: 20px;
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            padding: 20px;
         }
 
         .status {
@@ -97,11 +87,13 @@
         }
 
         .buttons {
-            margin-bottom: 20px;
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
+            padding: 20px;
         }
 
         .buttons button {
@@ -120,11 +112,11 @@
         }
 
         .log {
-            margin-top: 20px;
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
             background-color: #f8f8f8;
             padding: 15px;
             border-radius: 15px;
-            height: 150px;
             overflow-y: auto;
             font-size: 14px;
             color: #333;
@@ -226,99 +218,125 @@
         .click-animation {
             animation: clickAnimation 0.3s ease;
         }
+
+        /* 打工页面样式 */
+        .work-page {
+            display: none;
+            text-align: center;
+        }
+
+        .work-page h2 {
+            font-size: 24px;
+            color: #ff6f61;
+            margin-bottom: 20px;
+        }
+
+        .work-page button {
+            padding: 12px 20px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .work-page button:hover {
+            background-color: #ff4a3d;
+        }
+
+        .work-page .game-container {
+            margin-top: 20px;
+        }
+
+        .work-page .game-container input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 10px;
+        }
+
+        .work-page .game-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .work-page .game-container button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 
 <!-- 主页面 -->
 <div class="home-page">
-    <h1>🐰 像素宠物养成 🐱</h1>
-    <button onclick="startGame('blueRabbit')">杀手兔</button>
-    <button onclick="startGame('redCat')">天才喵</button>
-    <button onclick="startGame('blackDog')">缺爱汪</button>
+    <div class="pet-image">
+        <img id="petImage" src="https://via.placeholder.com/200x200/0000FF/FFFFFF?text=🐰" alt="宠物" class="click-animation">
+    </div>
+
+    <div class="pet-status">
+        <h3 id="petName">杀手兔</h3>
+        <div class="status">
+            <span>饥饿值:</span>
+            <span id="hungerValue">80</span>
+        </div>
+        <div class="status">
+            <span>口渴值:</span>
+            <span id="thirstValue">70</span>
+        </div>
+        <div class="status">
+            <span>清洁度:</span>
+            <span id="cleanlinessValue">70</span>
+        </div>
+        <div class="status">
+            <span>心情值:</span>
+            <span id="moodValue">❤️❤️❤️</span>
+        </div>
+        <div class="status">
+            <span>亲密度:</span>
+            <span id="affectionValue">70/100</span>
+        </div>
+        <div class="status">
+            <span>等级:</span>
+            <span id="levelValue">4</span>
+        </div>
+        <div class="level-bar">
+            <div class="level-progress" id="levelProgress"></div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button onclick="feedPet()">🍎 喂食</button>
+        <button onclick="waterPet()">💧 添水</button>
+        <button onclick="bathePet()">🛁 洗澡</button>
+        <button onclick="playWithPet()">🎾 玩耍</button>
+        <button onclick="pet()">✋ 摸一摸</button>
+        <button onclick="startWork()">💼 打工</button>
+        <button onclick="specialAction()">✨ 特殊互动</button>
+        <button onclick="switchPet()">🔁 切换宠物</button>
+    </div>
+
+    <div class="log">
+        <h4>📜 互动记录</h4>
+        <ul id="logList">
+            <li>欢迎来到像素宠物养成！</li>
+        </ul>
+    </div>
 </div>
 
-<!-- 游戏页面 -->
-<div class="game-page">
-    <div class="container">
-        <div class="title" id="gameTitle">🐰 像素宠物养成 🐱</div>
-
-        <div class="pet-info">
-            <img id="petImage" src="https://via.placeholder.com/120x120/0000FF/FFFFFF?text=🐰" alt="宠物" class="click-animation">
-            <h3 id="petName">杀手兔</h3>
-            <input type="text" id="nicknameInput" placeholder="编辑昵称" onchange="updateNickname()">
-        </div>
-
-        <div class="pet-status">
-            <div class="status">
-                <span>饥饿值:</span>
-                <span id="hungerValue">80</span>
-            </div>
-            <div class="status">
-                <span>口渴值:</span>
-                <span id="thirstValue">70</span>
-            </div>
-            <div class="status">
-                <span>清洁度:</span>
-                <span id="cleanlinessValue">70</span>
-            </div>
-            <div class="status">
-                <span>心情值:</span>
-                <span id="moodValue">❤️❤️❤️</span>
-            </div>
-            <div class="status">
-                <span>亲密度:</span>
-                <span id="affectionValue">70/100</span>
-            </div>
-            <div class="status">
-                <span>等级:</span>
-                <span id="levelValue">4</span>
-            </div>
-            <div class="level-bar">
-                <div class="level-progress" id="levelProgress"></div>
-            </div>
-        </div>
-
-        <div class="buttons">
-            <button onclick="feedPet()">🍎 喂食</button>
-            <button onclick="waterPet()">💧 添水</button>
-            <button onclick="bathePet()">🛁 洗澡</button>
-            <button onclick="playWithPet()">🎾 玩耍</button>
-            <button onclick="pet()">✋ 摸一摸</button>
-            <button onclick="startWork()">💼 打工</button>
-            <button onclick="specialAction()">✨ 特殊互动</button>
-        </div>
-
-        <div class="log">
-            <h4>📜 互动记录</h4>
-            <ul id="logList">
-                <li>欢迎来到像素宠物养成！</li>
-            </ul>
-        </div>
-
-        <div class="shop">
-            <h4>🛒 宠物商城</h4>
-            <div id="petShop">
-                <div class="shop-item">
-                    <span>天才喵 - 100金币</span>
-                    <button onclick="buyPet('redCat')">购买</button>
-                </div>
-                <div class="shop-item">
-                    <span>缺爱汪 - 150金币</span>
-                    <button onclick="buyPet('blackDog')">购买</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="achievements">
-            <h4>🏆 成就系统</h4>
-            <div class="achievement-item">
-                <span>初次喂食</span>
-            </div>
-            <div class="achievement-item">
-                <span>宠物升级</span>
-            </div>
-        </div>
+<!-- 打工页面 -->
+<div class="work-page">
+    <h2>💼 打工游戏</h2>
+    <button onclick="backToHome()">🔙 返回</button>
+    <div class="game-container" id="gameContainer">
+        <p>选择打工游戏：</p>
+        <button onclick="startGuessNumber()">猜数字</button>
+        <button onclick="startRockPaperScissors()">猜拳</button>
     </div>
 </div>
 
@@ -327,7 +345,7 @@
     const pets = {
         "blueRabbit": {
             name: "杀手兔",
-            image: "https://via.placeholder.com/120x120/0000FF/FFFFFF?text=🐰",
+            image: "https://via.placeholder.com/200x200/0000FF/FFFFFF?text=🐰",
             hunger: 80,
             thirst: 70,
             cleanliness: 70,
@@ -341,7 +359,7 @@
         },
         "redCat": {
             name: "天才喵",
-            image: "https://via.placeholder.com/120x120/FF0000/FFFFFF?text=🐱",
+            image: "https://via.placeholder.com/200x200/FF0000/FFFFFF?text=🐱",
             hunger: 50,
             thirst: 60,
             cleanliness: 50,
@@ -355,7 +373,7 @@
         },
         "blackDog": {
             name: "缺爱汪",
-            image: "https://via.placeholder.com/120x120/000000/FFFFFF?text=🐶",
+            image: "https://via.placeholder.com/200x200/000000/FFFFFF?text=🐶",
             hunger: 70,
             thirst: 80,
             cleanliness: 80,
@@ -372,12 +390,15 @@
     let currentPet = "blueRabbit";
     let playerCoins = 100; // 初始金币
 
-    function startGame(petType) {
-        currentPet = petType;
-        document.querySelector('.home-page').style.display = 'none';
-        document.querySelector('.game-page').style.display = 'block';
+    // 数值随时间变化
+    setInterval(() => {
+        const pet = pets[currentPet];
+        pet.hunger = Math.max(0, pet.hunger - 1);
+        pet.thirst = Math.max(0, pet.thirst - 1);
+        pet.cleanliness = Math.max(0, pet.cleanliness - 1);
+        pet.mood = pet.mood.length > 0 ? pet.mood.slice(0, -1) : "";
         updatePetStatus();
-    }
+    }, 60000); // 每分钟减少一次
 
     function updatePetStatus() {
         const pet = pets[currentPet];
@@ -440,7 +461,10 @@
     function pet() {
         const pet = pets[currentPet];
         const random = Math.random();
-        if (random < 0.2) {
+        if (currentPet === "blueRabbit" && random < 0.8) {
+            addLog('杀手兔咬了你一口！');
+            pet.affection -= 5;
+        } else if (random < 0.2) {
             addLog('宠物咬了你一口！');
             pet.affection -= 5;
         } else {
@@ -451,28 +475,29 @@
     }
 
     function startWork() {
-        const game = prompt('选择打工游戏：1.猜数字 2.猜拳');
-        if (game === '1') {
-            guessNumber();
-        } else if (game === '2') {
-            rockPaperScissors();
-        } else {
-            addLog('无效的选择');
-        }
+        document.querySelector('.home-page').style.display = 'none';
+        document.querySelector('.work-page').style.display = 'block';
     }
 
-    function guessNumber() {
-        const number = Math.floor(Math.random() * 10) + 1;
-        const guess = prompt('猜一个1到10的数字');
+    function backToHome() {
+        document.querySelector('.work-page').style.display = 'none';
+        document.querySelector('.home-page').style.display = 'grid';
+    }
+
+    function startGuessNumber() {
+        const number = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+        const guess = prompt('猜一个1到100的数字');
         if (guess == number) {
-            addLog('猜对了！获得10金币');
-            playerCoins += 10;
+            addLog('猜对了！获得50金币');
+            playerCoins += 50;
         } else {
             addLog(`猜错了！正确答案是${number}`);
         }
+        backToHome();
     }
 
-    function rockPaperScissors() {
+    function startRockPaperScissors() {
         const choices = ['石头', '剪刀', '布'];
         const computerChoice = choices[Math.floor(Math.random() * 3)];
         const userChoice = prompt('选择：石头、剪刀、布');
@@ -484,14 +509,15 @@
                 (userChoice === '剪刀' && computerChoice === '布') ||
                 (userChoice === '布' && computerChoice === '石头')
             ) {
-                addLog('你赢了！获得10金币');
-                playerCoins += 10;
+                addLog('你赢了！获得30金币');
+                playerCoins += 30;
             } else {
                 addLog('你输了！');
             }
         } else {
             addLog('无效的选择');
         }
+        backToHome();
     }
 
     function specialAction() {
@@ -501,25 +527,18 @@
         updatePetStatus();
     }
 
-    function buyPet(petName) {
-        if (petName === "redCat" && playerCoins >= 100) {
-            playerCoins -= 100;
-            addLog('成功购买天才喵！');
-            pets["redCat"].level = 1; // 解锁宠物
-        } else if (petName === "blackDog" && playerCoins >= 150) {
-            playerCoins -= 150;
-            addLog('成功购买缺爱汪！');
-            pets["blackDog"].level = 1; // 解锁宠物
+    function switchPet() {
+        if (currentPet === "blueRabbit") {
+            currentPet = "redCat";
+        } else if (currentPet === "redCat") {
+            currentPet = "blackDog";
         } else {
-            addLog('金币不足，无法购买宠物');
+            currentPet = "blueRabbit";
         }
-    }
-
-    function updateNickname() {
-        const nickname = document.getElementById('nicknameInput').value;
-        pets[currentPet].name = nickname || pets[currentPet].name;
         updatePetStatus();
     }
+
+    updatePetStatus();
 </script>
 
 </body>
