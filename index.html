@@ -1,214 +1,233 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iMessage Chat</title>
+    <title>🐰🐶🐱の养成</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #E5E5EA;
+            background-color: #f7f7f7;
             display: flex;
-            flex-direction: column;
-            height: 100vh;
-            position: relative;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            background-color: white;
-            border-bottom: 1px solid #ccc;
-        }
-        .header img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        .chat-container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            overflow-y: auto;
-        }
-        .message-container {
-            display: flex;
-            align-items: flex-end;
-            margin: 5px 0;
-        }
-        .message-container img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .message {
-            max-width: 80%; /* 控制消息宽度，避免消息太窄 */
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 16px;
-            position: relative;
-        }
-        .sent {
-            background-color: #34C759;
-            color: white;
-            align-self: flex-end; /* 发送的消息靠右 */
-            border-bottom-right-radius: 0;
-        }
-        .received {
-            background-color: #007AFF;
-            color: white;
-            align-self: flex-start; /* 接收的消息靠左 */
-            border-bottom-left-radius: 0;
-        }
-        .profile-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
-            flex-direction: row;
-            padding: 20px;
+            height: 100vh;
+            background-image: linear-gradient(to top, #d1e6f2, #c0e3f9);
         }
-        .profile-content {
-            background-color: white;
-            padding: 10px;
-            border-radius: 10px;
+        .main-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .main-container h1 {
+            font-size: 30px;
+            color: #4A90E2;
+            margin-bottom: 20px;
+        }
+        .pet-icons {
             display: flex;
-            flex-direction: row;
-            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
         }
-        .profile-content img {
-            width: 200px;
-            height: auto;
-            border-radius: 10px;
+        .pet-icons img {
+            width: 100px;
+            height: 100px;
+            margin: 0 15px;
+            animation: float 3s ease-in-out infinite;
         }
-        .profile-text {
-            margin-left: 20px;
-            text-align: left;
-            font-size: 16px;
-        }
-        .close-btn {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #007AFF;
+        .play-button {
+            background-color: #4CAF50;
             color: white;
+            padding: 15px 30px;
+            font-size: 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .input-container {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            background-color: white;
-            border-top: 1px solid #ccc;
+        .play-button:hover {
+            background-color: #45a049;
         }
-        .input-container input {
-            flex-grow: 1;
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            margin-right: 10px;
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
-        .affinity-bar {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 200px;
-            background-color: #ccc;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .affinity-progress {
-            width: 100%;
-            height: 50%;
-            background-color: red;
-            transition: height 0.3s;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
-<body onclick="sendMessage()">
-    <div class="header">
-        <img src="https://i.ibb.co/hJFh07tf/88-ACB457-ABD6-4-BC5-A4-B8-59-F627-EA0435.jpg" alt="avatar" onclick="showProfile()">
-        <div>殺手兔</div>
-    </div>
-    <div class="chat-container" id="chatContainer">
-    </div>
-    
-    <div class="profile-container" id="profile">
-        <div class="profile-content">
-            <img src="https://i.ibb.co/1tV0B1x2/D7760-BDA-C13-C-4-BA7-97-EC-4-D143-EC7-B333.jpg" alt="profile-pic">
-            <div class="profile-text">
-                <p>usirono huyu 後之フユ</p>
-                <p>誕生日：1/1</p>
-                <p>年齢：24</p>
-                <p>身長：181</p>
-                <p>体重：63</p>
-                <p>好きな物…妹、(以前の)前野</p>
-                <p>嫌いな物…父親、後之家、ZENO</p>
-                <p>好きな食べ物…辛い物</p>
-                <p>嫌いな食べ物…甘い物全般</p>
-            </div>
+<body>
+    <div id="standbyPage" class="main-container">
+        <h1>🐰🐶🐱の养成</h1>
+        <div class="pet-icons">
+            <img src="https://via.placeholder.com/100x100/0000FF/FFFFFF?text=%E5%8F%91%E9%9B%85" alt="蓝色兔子">
+            <img src="https://via.placeholder.com/100x100/000000/FFFFFF?text=%E9%BB%91%E7%8B%97" alt="黑色狗">
+            <img src="https://via.placeholder.com/100x100/FF0000/FFFFFF?text=%E5%A4%A9%E6%89%8D%E5%96%B5" alt="红色猫">
         </div>
-        <button class="close-btn" onclick="hideProfile()">閉じる</button>
+        <button class="play-button" onclick="startGame()">Play</button>
     </div>
 
-    <div class="input-container">
-        <input type="text" id="messageInput" placeholder="メッセージを入力...">
-        <button onclick="sendMessage()">送信</button>
-    </div>
-    
-    <div class="affinity-bar">
-        <div class="affinity-progress" id="affinityProgress" style="height: 0%;"></div>
+    <div id="gamePage" class="hidden">
+        <!-- 游戏内容的HTML代码会在这里 -->
+        <div class="container">
+            <div class="pet-info">
+                <h2 id="petName">杀手兔</h2>
+                <img id="petImage" src="https://via.placeholder.com/100x100/0000FF/FFFFFF?text=%E5%8F%91%E9%9B%85" alt="杀手兔">
+            </div>
+            <div class="pet-status">
+                <div class="status">
+                    <span>饥饿值:</span>
+                    <span id="hungerValue">80</span>
+                </div>
+                <div class="status">
+                    <span>口渴值:</span>
+                    <span id="thirstValue">70</span>
+                </div>
+                <div class="status">
+                    <span>清洁度:</span>
+                    <span id="cleanlinessValue">70</span>
+                </div>
+                <div class="status">
+                    <span>心情值:</span>
+                    <span id="moodValue">❤️❤️❤️</span>
+                </div>
+                <div class="status">
+                    <span>亲密度:</span>
+                    <span id="affectionValue">60/100</span>
+                </div>
+                <div class="status">
+                    <span>金币:</span>
+                    <span id="coinValue">0</span>
+                </div>
+            </div>
+            <div class="buttons">
+                <button id="feedButton" onclick="feedPet()">喂食</button>
+                <button id="waterButton" onclick="waterPet()">添水</button>
+                <button id="batheButton" onclick="bathePet()">洗澡</button>
+                <button id="playButton" onclick="playWithPet()">逗一逗</button>
+                <button id="workButton" onclick="work()">打工</button>
+                <button id="switchPetButton" onclick="switchPet()">切换宠物</button>
+                <button id="facilityButton" onclick="visitFacility()">访问ZERO设施</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        let messages = [
-            { type: 'sent', text: '你好' },
-            { type: 'received', text: '你好' },
-            { type: 'sent', text: '吃了吗' },
-            { type: 'received', text: '吃了' }
-        ];
-        let index = 0;
-        let affinity = -100;
-        function showProfile() {
-            document.getElementById('profile').style.display = 'flex';
+        // 待机页面 -> 主游戏页面切换
+        function startGame() {
+            document.getElementById('standbyPage').style.display = 'none';
+            document.getElementById('gamePage').style.display = 'block';
         }
-        function hideProfile() {
-            document.getElementById('profile').style.display = 'none';
-        }
-        function sendMessage() {
-            if (index < messages.length) {
-                let chatContainer = document.getElementById('chatContainer');
-                let messageData = messages[index];
-                let messageDiv = document.createElement('div');
-                messageDiv.classList.add('message-container');
-                if (messageData.type === 'received') {
-                    let img = document.createElement('img');
-                    img.src = "https://i.ibb.co/hJFh07tf/88-ACB457-ABD6-4-BC5-A4-B8-59-F627-EA0435.jpg";
-                    img.onclick = showProfile;
-                    messageDiv.appendChild(img);
-                }
-                let textDiv = document.createElement('div');
-                textDiv.classList.add('message', messageData.type);
-                textDiv.innerText = messageData.text;
-                messageDiv.appendChild(textDiv);
-                chatContainer.appendChild(messageDiv);
-                index++;
+
+        let pets = {
+            "killerRabbit": {
+                name: "杀手兔",
+                image: "https://via.placeholder.com/100x100/0000FF/FFFFFF?text=%E5%8F%91%E9%9B%85",
+                hunger: 80,
+                thirst: 70,
+                cleanliness: 70,
+                mood: '❤️❤️❤️',
+                affection: 60,
+                coins: 0
+            },
+            "geniusCat": {
+                name: "天才喵",
+                image: "https://via.placeholder.com/100x100/FF0000/FFFFFF?text=%E5%A4%A9%E6%89%8D%E5%96%B5",
+                hunger: 50,
+                thirst: 60,
+                cleanliness: 50,
+                mood: '❤️❤️',
+                affection: 50,
+                coins: 0
+            },
+            "lovelessDog": {
+                name: "缺爱汪",
+                image: "https://via.placeholder.com/100x100/000000/FFFFFF?text=%E7%BC%BA%E7%88%B1%E5%8F%A6",
+                hunger: 70,
+                thirst: 80,
+                cleanliness: 80,
+                mood: '❤️❤️❤️❤️',
+                affection: 80,
+                coins: 0
             }
+        };
+
+        let currentPet = "killerRabbit";
+
+        function updatePetStatus() {
+            const pet = pets[currentPet];
+            document.getElementById('petName').textContent = pet.name;
+            document.getElementById('petImage').src = pet.image;
+            document.getElementById('hungerValue').textContent = pet.hunger;
+            document.getElementById('thirstValue').textContent = pet.thirst;
+            document.getElementById('cleanlinessValue').textContent = pet.cleanliness;
+            document.getElementById('moodValue').textContent = pet.mood;
+            document.getElementById('affectionValue').textContent = `${pet.affection}/100`;
+            document.getElementById('coinValue').textContent = pet.coins;
         }
+
+        function addActivity(activity) {
+            const logList = document.getElementById('logList');
+            const newLog = document.createElement('li');
+            const time = new Date().toLocaleString();
+            newLog.textContent = `[${time}] ${activity}`;
+            logList.appendChild(newLog);
+        }
+
+        function feedPet() {
+            const pet = pets[currentPet];
+            pet.hunger = Math.min(100, pet.hunger + 10);
+            addActivity('喂食了宠物！饥饿值增加。');
+            updatePetStatus();
+        }
+
+        function waterPet() {
+            const pet = pets[currentPet];
+            pet.thirst = Math.min(100, pet.thirst + 10);
+            addActivity('给宠物添水！口渴值增加。');
+            updatePetStatus();
+        }
+
+        function bathePet() {
+            const pet = pets[currentPet];
+            pet.cleanliness = Math.min(100, pet.cleanliness + 15);
+            addActivity('给宠物洗澡！清洁度提升。');
+            updatePetStatus();
+        }
+
+        function playWithPet() {
+            const pet = pets[currentPet];
+            pet.mood = '❤️❤️❤️❤️❤️';
+            pet.affection = Math.min(100, pet.affection + 10);
+            addActivity('和宠物玩耍！心情变好，亲密度提升。');
+            updatePetStatus();
+        }
+
+        function work() {
+            addActivity('准备打工赚金币！');
+        }
+
+        function switchPet() {
+            if (currentPet === "killerRabbit") {
+                currentPet = "geniusCat";
+            } else if (currentPet === "geniusCat") {
+                currentPet = "lovelessDog";
+            } else {
+                currentPet = "killerRabbit";
+            }
+            updatePetStatus();
+        }
+
+        updatePetStatus();
     </script>
 </body>
 </html>
