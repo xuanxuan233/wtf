@@ -28,6 +28,7 @@
             padding: 20px;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .home-page h1 {
@@ -120,6 +121,8 @@
             overflow-y: auto;
             font-size: 14px;
             color: #333;
+            display: flex;
+            flex-direction: column-reverse;
         }
 
         .log ul {
@@ -273,8 +276,23 @@
 </head>
 <body>
 
-<!-- 主页面 -->
+<!-- 领养页面 -->
 <div class="home-page">
+    <h1>要领养这只杀手兔吗？</h1>
+    <button id="adoptYes">是</button>
+    <button id="adoptNo">否</button>
+</div>
+
+<!-- 领养后提示页面 -->
+<div id="adoptConfirmation" style="display:none; text-align:center;">
+    <h2>恭喜你获得了一只杀手兔！</h2>
+    <a href="https://ibb.co/cKX0TzpD"><img src="https://i.ibb.co/Fkq27Gfg/76-F6-BC06-D8-F8-411-D-9-DD1-15-E214217-AB3.webp" alt="杀手兔" width="200px"></a>
+    <br><br>
+    <button onclick="startPetPage()">领取</button>
+</div>
+
+<!-- 主页面 -->
+<div class="home-page" style="display:none;">
     <div class="pet-image">
         <img id="petImage" src="https://via.placeholder.com/200x200/0000FF/FFFFFF?text=🐰" alt="宠物" class="click-animation">
     </div>
@@ -303,7 +321,7 @@
         </div>
         <div class="status">
             <span>等级:</span>
-            <span id="levelValue">4</span>
+            <span id="levelValue">1</span>
         </div>
         <div class="level-bar">
             <div class="level-progress" id="levelProgress"></div>
@@ -319,6 +337,7 @@
         <button onclick="startWork()">💼 打工</button>
         <button onclick="specialAction()">✨ 特殊互动</button>
         <button onclick="switchPet()">🔁 切换宠物</button>
+        <button onclick="openShop()">🛒 商城</button>
     </div>
 
     <div class="log">
@@ -351,7 +370,7 @@
             cleanliness: 70,
             mood: "❤️❤️❤️",
             affection: 70,
-            level: 4,
+            level: 1,
             experience: 70,
             maxExperience: 100,
             coins: 0,
@@ -359,7 +378,7 @@
         },
         "redCat": {
             name: "天才喵",
-            image: "https://via.placeholder.com/200x200/FF0000/FFFFFF?text=🐱",
+            image: "https://i.ibb.co/wZwDX93w/78996-FB8-1-C75-4-ACC-A6-B7-448-F019-D4-F8-A.png",
             hunger: 50,
             thirst: 60,
             cleanliness: 50,
@@ -373,7 +392,7 @@
         },
         "blackDog": {
             name: "缺爱汪",
-            image: "https://via.placeholder.com/200x200/000000/FFFFFF?text=🐶",
+            image: "https://i.ibb.co/yBBy8hVM/9625-F8-CA-65-AD-4-AF1-A7-AA-A0028-AD31617.webp",
             hunger: 70,
             thirst: 80,
             cleanliness: 80,
@@ -425,120 +444,22 @@
         logList.appendChild(newLog);
     }
 
-    function feedPet() {
-        const pet = pets[currentPet];
-        pet.hunger = Math.min(100, pet.hunger + 10);
-        pet.experience += 5;
-        addLog('喂食了宠物！饥饿值增加');
-        updatePetStatus();
-    }
-
-    function waterPet() {
-        const pet = pets[currentPet];
-        pet.thirst = Math.min(100, pet.thirst + 10);
-        pet.experience += 5;
-        addLog('给宠物添水！口渴值增加');
-        updatePetStatus();
-    }
-
-    function bathePet() {
-        const pet = pets[currentPet];
-        pet.cleanliness = Math.min(100, pet.cleanliness + 10);
-        pet.experience += 5;
-        addLog('给宠物洗澡！清洁度增加');
-        updatePetStatus();
-    }
-
-    function playWithPet() {
-        const pet = pets[currentPet];
-        pet.mood = "❤️❤️❤️❤️❤️";
-        pet.affection = Math.min(100, pet.affection + 10);
-        pet.experience += 10;
-        addLog('和宠物玩耍！心情值和亲密度提升');
-        updatePetStatus();
-    }
-
-    function pet() {
-        const pet = pets[currentPet];
-        const random = Math.random();
-        if (currentPet === "blueRabbit" && random < 0.8) {
-            addLog('杀手兔咬了你一口！');
-            pet.affection -= 5;
-        } else if (random < 0.2) {
-            addLog('宠物咬了你一口！');
-            pet.affection -= 5;
-        } else {
-            addLog('宠物享受了你的抚摸！');
-            pet.affection += 5;
-        }
-        updatePetStatus();
-    }
-
-    function startWork() {
+    function startPetPage() {
         document.querySelector('.home-page').style.display = 'none';
-        document.querySelector('.work-page').style.display = 'block';
-    }
-
-    function backToHome() {
-        document.querySelector('.work-page').style.display = 'none';
         document.querySelector('.home-page').style.display = 'grid';
+        document.querySelector('#adoptConfirmation').style.display = 'none';
+        document.querySelector('.pet-status').style.display = 'block';
     }
 
-    function startGuessNumber() {
-        const number = Math.floor(Math.random() * 100) + 1;
-        let attempts = 0;
-        const guess = prompt('猜一个1到100的数字');
-        if (guess == number) {
-            addLog('猜对了！获得50金币');
-            playerCoins += 50;
-        } else {
-            addLog(`猜错了！正确答案是${number}`);
-        }
-        backToHome();
-    }
+    document.getElementById("adoptYes").onclick = function() {
+        document.querySelector('.home-page').style.display = 'none';
+        document.querySelector('#adoptConfirmation').style.display = 'block';
+    };
 
-    function startRockPaperScissors() {
-        const choices = ['石头', '剪刀', '布'];
-        const computerChoice = choices[Math.floor(Math.random() * 3)];
-        const userChoice = prompt('选择：石头、剪刀、布');
-        if (choices.includes(userChoice)) {
-            if (userChoice === computerChoice) {
-                addLog('平局！');
-            } else if (
-                (userChoice === '石头' && computerChoice === '剪刀') ||
-                (userChoice === '剪刀' && computerChoice === '布') ||
-                (userChoice === '布' && computerChoice === '石头')
-            ) {
-                addLog('你赢了！获得30金币');
-                playerCoins += 30;
-            } else {
-                addLog('你输了！');
-            }
-        } else {
-            addLog('无效的选择');
-        }
-        backToHome();
-    }
-
-    function specialAction() {
-        const pet = pets[currentPet];
-        addLog(`宠物进行了特殊互动：${pet.specialAction}`);
-        pet.experience += 15;
-        updatePetStatus();
-    }
-
-    function switchPet() {
-        if (currentPet === "blueRabbit") {
-            currentPet = "redCat";
-        } else if (currentPet === "redCat") {
-            currentPet = "blackDog";
-        } else {
-            currentPet = "blueRabbit";
-        }
-        updatePetStatus();
-    }
-
-    updatePetStatus();
+    document.getElementById("adoptNo").onclick = function() {
+        document.getElementById("adoptYes").style.transform = "scale(1.5)";
+        document.getElementById("adoptNo").style.transform = "scale(0.7)";
+    };
 </script>
 
 </body>
