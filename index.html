@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>像素宠物养成</title>
+    <title>🖤❤️💙</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -18,16 +18,6 @@
 
         /* 主页面样式 */
         .home-page {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 20px;
-            width: 800px;
-            height: 600px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
@@ -45,12 +35,54 @@
             border-radius: 25px;
             cursor: pointer;
             font-size: 20px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             margin: 10px;
         }
 
         .home-page button:hover {
             background-color: #ff4a3d;
+        }
+
+        .adopt-page {
+            display: none;
+            text-align: center;
+        }
+
+        .adopt-page img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid #ff6f61;
+            margin-bottom: 20px;
+        }
+
+        .adopt-page button {
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .adopt-page button:hover {
+            background-color: #45a049;
+        }
+
+        /* 宠物主页面样式 */
+        .pet-page {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            width: 800px;
+            height: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .pet-image {
@@ -106,6 +138,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 16px;
+            width: 100%;
         }
 
         .buttons button:hover {
@@ -122,12 +155,13 @@
             font-size: 14px;
             color: #333;
             display: flex;
-            flex-direction: column-reverse;
+            flex-direction: column-reverse; /* 从下往上更新 */
         }
 
         .log ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .log ul li {
@@ -187,41 +221,6 @@
             background-color: #45a049;
         }
 
-        .achievements {
-            margin-top: 20px;
-        }
-
-        .achievements h4 {
-            text-align: center;
-            color: #ff6f61;
-            margin-bottom: 15px;
-        }
-
-        .achievement-item {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 15px;
-            background-color: #f9f9f9;
-        }
-
-        .achievement-item span {
-            margin-left: 10px;
-        }
-
-        /* 点击动画 */
-        @keyframes clickAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .click-animation {
-            animation: clickAnimation 0.3s ease;
-        }
-
         /* 打工页面样式 */
         .work-page {
             display: none;
@@ -253,13 +252,6 @@
             margin-top: 20px;
         }
 
-        .work-page .game-container input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            margin: 10px;
-        }
-
         .work-page .game-container button {
             padding: 10px 20px;
             background-color: #4CAF50;
@@ -267,6 +259,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            margin: 10px;
         }
 
         .work-page .game-container button:hover {
@@ -276,25 +269,24 @@
 </head>
 <body>
 
-<!-- 领养页面 -->
+<!-- 主页面 -->
 <div class="home-page">
     <h1>要领养这只杀手兔吗？</h1>
-    <button id="adoptYes">是</button>
-    <button id="adoptNo">否</button>
+    <button id="yesButton" onclick="adoptPet()">是</button>
+    <button id="noButton" onclick="shrinkNoButton()">否</button>
 </div>
 
-<!-- 领养后提示页面 -->
-<div id="adoptConfirmation" style="display:none; text-align:center;">
-    <h2>恭喜你获得了一只杀手兔！</h2>
-    <a href="https://ibb.co/cKX0TzpD"><img src="https://i.ibb.co/Fkq27Gfg/76-F6-BC06-D8-F8-411-D-9-DD1-15-E214217-AB3.webp" alt="杀手兔" width="200px"></a>
-    <br><br>
-    <button onclick="startPetPage()">领取</button>
+<!-- 领取页面 -->
+<div class="adopt-page">
+    <h1>恭喜你获得了一只杀手兔！</h1>
+    <img src="https://i.ibb.co/Fkq27Gfg/76-F6-BC06-D8-F8-411-D-9-DD1-15-E214217-AB3.webp" alt="杀手兔">
+    <button onclick="startPetGame()">领取</button>
 </div>
 
-<!-- 主页面 -->
-<div class="home-page" style="display:none;">
+<!-- 宠物主页面 -->
+<div class="pet-page">
     <div class="pet-image">
-        <img id="petImage" src="https://via.placeholder.com/200x200/0000FF/FFFFFF?text=🐰" alt="宠物" class="click-animation">
+        <img id="petImage" src="https://i.ibb.co/Fkq27Gfg/76-F6-BC06-D8-F8-411-D-9-DD1-15-E214217-AB3.webp" alt="宠物" class="click-animation">
     </div>
 
     <div class="pet-status">
@@ -336,7 +328,6 @@
         <button onclick="pet()">✋ 摸一摸</button>
         <button onclick="startWork()">💼 打工</button>
         <button onclick="specialAction()">✨ 特殊互动</button>
-        <button onclick="switchPet()">🔁 切换宠物</button>
         <button onclick="openShop()">🛒 商城</button>
     </div>
 
@@ -351,11 +342,25 @@
 <!-- 打工页面 -->
 <div class="work-page">
     <h2>💼 打工游戏</h2>
-    <button onclick="backToHome()">🔙 返回</button>
+    <button onclick="backToPetPage()">🔙 返回</button>
     <div class="game-container" id="gameContainer">
         <p>选择打工游戏：</p>
-        <button onclick="startGuessNumber()">猜数字</button>
-        <button onclick="startRockPaperScissors()">猜拳</button>
+        <button onclick="startGuessNumber()">🔢 猜数字</button>
+        <button onclick="startRockPaperScissors()">✂️ 猜拳</button>
+    </div>
+</div>
+
+<!-- 商城页面 -->
+<div class="shop-page">
+    <h2>🛒 宠物商城</h2>
+    <button onclick="backToPetPage()">🔙 返回</button>
+    <div class="shop-item">
+        <span>天才喵 - 100金币</span>
+        <button onclick="buyPet('redCat')">购买</button>
+    </div>
+    <div class="shop-item">
+        <span>缺爱汪 - 150金币</span>
+        <button onclick="buyPet('blackDog')">购买</button>
     </div>
 </div>
 
@@ -364,14 +369,14 @@
     const pets = {
         "blueRabbit": {
             name: "杀手兔",
-            image: "https://via.placeholder.com/200x200/0000FF/FFFFFF?text=🐰",
+            image: "https://i.ibb.co/Fkq27Gfg/76-F6-BC06-D8-F8-411-D-9-DD1-15-E214217-AB3.webp",
             hunger: 80,
             thirst: 70,
             cleanliness: 70,
             mood: "❤️❤️❤️",
             affection: 70,
             level: 1,
-            experience: 70,
+            experience: 0,
             maxExperience: 100,
             coins: 0,
             specialAction: "玩匕首"
@@ -384,8 +389,8 @@
             cleanliness: 50,
             mood: "❤️❤️",
             affection: 50,
-            level: 3,
-            experience: 50,
+            level: 1,
+            experience: 0,
             maxExperience: 100,
             coins: 0,
             specialAction: "制作炸弹"
@@ -398,8 +403,8 @@
             cleanliness: 80,
             mood: "❤️❤️❤️❤️",
             affection: 80,
-            level: 5,
-            experience: 90,
+            level: 1,
+            experience: 0,
             maxExperience: 100,
             coins: 0,
             specialAction: "做料理"
@@ -418,6 +423,24 @@
         pet.mood = pet.mood.length > 0 ? pet.mood.slice(0, -1) : "";
         updatePetStatus();
     }, 60000); // 每分钟减少一次
+
+    function adoptPet() {
+        document.querySelector('.home-page').style.display = 'none';
+        document.querySelector('.adopt-page').style.display = 'block';
+    }
+
+    function shrinkNoButton() {
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        yesButton.style.transform = 'scale(1.2)';
+        noButton.style.transform = 'scale(0.8)';
+    }
+
+    function startPetGame() {
+        document.querySelector('.adopt-page').style.display = 'none';
+        document.querySelector('.pet-page').style.display = 'grid';
+        updatePetStatus();
+    }
 
     function updatePetStatus() {
         const pet = pets[currentPet];
@@ -441,25 +464,123 @@
         const newLog = document.createElement('li');
         const time = new Date().toLocaleString();
         newLog.innerText = `[${time}] ${message}`;
-        logList.appendChild(newLog);
+        logList.prepend(newLog); // 从下往上更新
     }
 
-    function startPetPage() {
+    function feedPet() {
+        const pet = pets[currentPet];
+        pet.hunger = Math.min(100, pet.hunger + 10);
+        pet.experience += 5;
+        addLog('喂食了宠物！饥饿值增加');
+        updatePetStatus();
+    }
+
+    function waterPet() {
+        const pet = pets[currentPet];
+        pet.thirst = Math.min(100, pet.thirst + 10);
+        pet.experience += 5;
+        addLog('给宠物添水！口渴值增加');
+        updatePetStatus();
+    }
+
+    function bathePet() {
+        const pet = pets[currentPet];
+        pet.cleanliness = Math.min(100, pet.cleanliness + 10);
+        pet.experience += 5;
+        addLog('给宠物洗澡！清洁度增加');
+        updatePetStatus();
+    }
+
+    function playWithPet() {
+        const pet = pets[currentPet];
+        pet.mood = "❤️❤️❤️❤️❤️";
+        pet.affection = Math.min(100, pet.affection + 10);
+        pet.experience += 10;
+        addLog('和宠物玩耍！心情值和亲密度提升');
+        updatePetStatus();
+    }
+
+    function pet() {
+        const pet = pets[currentPet];
+        const random = Math.random();
+        if (currentPet === "blueRabbit" && random < 0.8) {
+            addLog('杀手兔咬了你一口！');
+            pet.affection -= 5;
+        } else if (random < 0.2) {
+            addLog('宠物咬了你一口！');
+            pet.affection -= 5;
+        } else {
+            addLog('宠物享受了你的抚摸！');
+            pet.affection += 5;
+        }
+        updatePetStatus();
+    }
+
+    function startWork() {
         document.querySelector('.home-page').style.display = 'none';
+        document.querySelector('.work-page').style.display = 'block';
+    }
+
+    function backToHome() {
+        document.querySelector('.work-page').style.display = 'none';
         document.querySelector('.home-page').style.display = 'grid';
-        document.querySelector('#adoptConfirmation').style.display = 'none';
-        document.querySelector('.pet-status').style.display = 'block';
     }
 
-    document.getElementById("adoptYes").onclick = function() {
-        document.querySelector('.home-page').style.display = 'none';
-        document.querySelector('#adoptConfirmation').style.display = 'block';
-    };
+    function startGuessNumber() {
+        const number = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+        const guess = prompt('猜一个1到100的数字');
+        if (guess == number) {
+            addLog('猜对了！获得50金币');
+            playerCoins += 50;
+        } else {
+            addLog(`猜错了！正确答案是${number}`);
+        }
+        backToHome();
+    }
 
-    document.getElementById("adoptNo").onclick = function() {
-        document.getElementById("adoptYes").style.transform = "scale(1.5)";
-        document.getElementById("adoptNo").style.transform = "scale(0.7)";
-    };
+    function startRockPaperScissors() {
+        const choices = ['石头', '剪刀', '布'];
+        const computerChoice = choices[Math.floor(Math.random() * 3)];
+        const userChoice = prompt('选择：石头、剪刀、布');
+        if (choices.includes(userChoice)) {
+            if (userChoice === computerChoice) {
+                addLog('平局！');
+            } else if (
+                (userChoice === '石头' && computerChoice === '剪刀') ||
+                (userChoice === '剪刀' && computerChoice === '布') ||
+                (userChoice === '布' && computerChoice === '石头')
+            ) {
+                addLog('你赢了！获得30金币');
+                playerCoins += 30;
+            } else {
+                addLog('你输了！');
+            }
+        } else {
+            addLog('无效的选择');
+        }
+        backToHome();
+    }
+
+    function specialAction() {
+        const pet = pets[currentPet];
+        addLog(`宠物进行了特殊互动：${pet.specialAction}`);
+        pet.experience += 15;
+        updatePetStatus();
+    }
+
+    function switchPet() {
+        if (currentPet === "blueRabbit") {
+            currentPet = "redCat";
+        } else if (currentPet === "redCat") {
+            currentPet = "blackDog";
+        } else {
+            currentPet = "blueRabbit";
+        }
+        updatePetStatus();
+    }
+
+    updatePetStatus();
 </script>
 
 </body>
