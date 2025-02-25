@@ -36,33 +36,17 @@
             cursor: pointer;
             font-size: 20px;
             transition: background-color 0.3s ease;
+            margin: 10px;
         }
 
         .home-page button:hover {
             background-color: #ff4a3d;
         }
 
-        .home-page .pet-list {
-            margin-top: 20px;
-        }
-
-        .home-page .pet-list img {
-            width: 80px;
-            height: 80px;
-            margin: 10px;
-            border-radius: 50%;
-            border: 4px solid #ff6f61;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .home-page .pet-list img:hover {
-            transform: scale(1.1);
-        }
-
         /* 游戏页面样式 */
         .game-page {
             display: none;
+            text-align: center;
         }
 
         .container {
@@ -249,18 +233,15 @@
 <!-- 主页面 -->
 <div class="home-page">
     <h1>🐰 像素宠物养成 🐱</h1>
-    <button onclick="startGame()">Play</button>
-    <div class="pet-list">
-        <img src="https://via.placeholder.com/80x80/0000FF/FFFFFF?text=🐰" alt="杀手兔">
-        <img src="https://via.placeholder.com/80x80/FF0000/FFFFFF?text=🐱" alt="天才喵">
-        <img src="https://via.placeholder.com/80x80/000000/FFFFFF?text=🐶" alt="缺爱汪">
-    </div>
+    <button onclick="startGame('blueRabbit')">杀手兔</button>
+    <button onclick="startGame('redCat')">天才喵</button>
+    <button onclick="startGame('blackDog')">缺爱汪</button>
 </div>
 
 <!-- 游戏页面 -->
 <div class="game-page">
     <div class="container">
-        <div class="title">🐰 像素宠物养成 🐱</div>
+        <div class="title" id="gameTitle">🐰 像素宠物养成 🐱</div>
 
         <div class="pet-info">
             <img id="petImage" src="https://via.placeholder.com/120x120/0000FF/FFFFFF?text=🐰" alt="宠物" class="click-animation">
@@ -391,7 +372,8 @@
     let currentPet = "blueRabbit";
     let playerCoins = 100; // 初始金币
 
-    function startGame() {
+    function startGame(petType) {
+        currentPet = petType;
         document.querySelector('.home-page').style.display = 'none';
         document.querySelector('.game-page').style.display = 'block';
         updatePetStatus();
