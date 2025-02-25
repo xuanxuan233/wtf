@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宠物养成游戏</title>
+    <title>可爱宠物养成</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #d1e6f2, #c0e3f9);
+            background: linear-gradient(to right, #f9e6ff, #e6f2ff);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,16 +19,16 @@
         .container {
             background: #fff;
             padding: 20px;
-            border-radius: 15px;
-            width: 450px;
+            border-radius: 20px;
+            width: 500px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             text-align: center;
-            color: #4A90E2;
+            color: #ff6f61;
             margin-bottom: 20px;
         }
 
@@ -38,8 +38,16 @@
         }
 
         .pet-info img {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #ff6f61;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .pet-status {
@@ -49,38 +57,42 @@
         .status {
             display: flex;
             justify-content: space-between;
-            margin: 5px 0;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
         }
 
         .buttons {
             margin-bottom: 20px;
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 10px;
+            justify-content: center;
         }
 
         .buttons button {
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 12px 20px;
+            background-color: #ff6f61;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-size: 16px;
         }
 
         .buttons button:hover {
-            background-color: #45a049;
+            background-color: #ff4a3d;
         }
 
         .log {
             margin-top: 20px;
             background-color: #f8f8f8;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 15px;
             height: 150px;
             overflow-y: auto;
-            font-size: 12px;
+            font-size: 14px;
             color: #333;
         }
 
@@ -90,32 +102,35 @@
         }
 
         .log ul li {
-            padding: 5px;
+            padding: 8px;
             border-bottom: 1px solid #ddd;
         }
 
         .level-bar {
             background-color: #f0f0f0;
-            border-radius: 5px;
+            border-radius: 10px;
             width: 100%;
-            height: 10px;
+            height: 12px;
             margin-top: 10px;
+            overflow: hidden;
         }
 
         .level-progress {
-            background-color: #4CAF50;
+            background-color: #ff6f61;
             height: 100%;
-            border-radius: 5px;
+            border-radius: 10px;
             width: 0;
+            transition: width 0.5s ease;
         }
 
-        /* 商城部分 */
         .shop {
             margin-top: 20px;
         }
 
         .shop h4 {
             text-align: center;
+            color: #ff6f61;
+            margin-bottom: 15px;
         }
 
         .shop-item {
@@ -123,33 +138,58 @@
             justify-content: space-between;
             align-items: center;
             margin: 10px 0;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 15px;
             background-color: #f9f9f9;
         }
 
         .shop-item button {
-            background-color: #FF7043;
+            background-color: #4CAF50;
             border: none;
             color: white;
-            padding: 8px;
-            border-radius: 5px;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .shop-item button:hover {
-            background-color: #FF5722;
+            background-color: #45a049;
+        }
+
+        .achievements {
+            margin-top: 20px;
+        }
+
+        .achievements h4 {
+            text-align: center;
+            color: #ff6f61;
+            margin-bottom: 15px;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .achievement-item span {
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="title">Nox & Cheva的宠物窝</div>
+    <div class="title">🐰 杀手兔的可爱日常 🐰</div>
 
     <div class="pet-info">
-        <img id="petImage" src="https://via.placeholder.com/100x100/0000FF/FFFFFF?text=%E5%8F%91%E9%9B%85" alt="宠物">
+        <img id="petImage" src="https://via.placeholder.com/120x120/ff6f61/FFFFFF?text=🐰" alt="宠物">
         <h3 id="petName">杀手兔</h3>
     </div>
 
@@ -174,35 +214,33 @@
             <span>亲密度:</span>
             <span id="affectionValue">70/100</span>
         </div>
-
         <div class="status">
             <span>等级:</span>
             <span id="levelValue">4</span>
         </div>
-
         <div class="level-bar">
             <div class="level-progress" id="levelProgress"></div>
         </div>
     </div>
 
     <div class="buttons">
-        <button id="feedButton" onclick="feedPet()">喂食</button>
-        <button id="waterButton" onclick="waterPet()">添水</button>
-        <button id="batheButton" onclick="bathePet()">洗澡</button>
-        <button id="playButton" onclick="playWithPet()">逗一逗</button>
-        <button id="workButton" onclick="work()">打工</button>
-        <button id="switchPetButton" onclick="switchPet()">切换宠物</button>
+        <button onclick="feedPet()">🍎 喂食</button>
+        <button onclick="waterPet()">💧 添水</button>
+        <button onclick="bathePet()">🛁 洗澡</button>
+        <button onclick="playWithPet()">🎾 玩耍</button>
+        <button onclick="trainPet()">🏋️ 训练</button>
+        <button onclick="decorate()">🎨 装饰</button>
     </div>
 
     <div class="log">
-        <h4>互动记录</h4>
+        <h4>📜 互动记录</h4>
         <ul id="logList">
-            <li>欢迎来到Nox & Cheva的宠物窝！</li>
+            <li>欢迎来到杀手兔的可爱日常！</li>
         </ul>
     </div>
 
     <div class="shop">
-        <h4>宠物商城</h4>
+        <h4>🛒 宠物商城</h4>
         <div id="petShop">
             <div class="shop-item">
                 <span>天才喵 - 100金币</span>
@@ -214,6 +252,16 @@
             </div>
         </div>
     </div>
+
+    <div class="achievements">
+        <h4>🏆 成就系统</h4>
+        <div class="achievement-item">
+            <span>初次喂食</span>
+        </div>
+        <div class="achievement-item">
+            <span>宠物升级</span>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -221,7 +269,7 @@
     const pets = {
         "killerRabbit": {
             name: "杀手兔",
-            image: "https://via.placeholder.com/100x100/0000FF/FFFFFF?text=%E5%8F%91%E9%9B%85",
+            image: "https://via.placeholder.com/120x120/ff6f61/FFFFFF?text=🐰",
             hunger: 80,
             thirst: 70,
             cleanliness: 70,
@@ -231,37 +279,11 @@
             experience: 70,
             maxExperience: 100,
             coins: 0
-        },
-        "geniusCat": {
-            name: "天才喵",
-            image: "https://via.placeholder.com/100x100/FF0000/FFFFFF?text=%E5%A4%A9%E6%89%8D%E5%96%B5",
-            hunger: 50,
-            thirst: 60,
-            cleanliness: 50,
-            mood: "❤️❤️",
-            affection: 50,
-            level: 3,
-            experience: 50,
-            maxExperience: 100,
-            coins: 0
-        },
-        "lovelessDog": {
-            name: "缺爱汪",
-            image: "https://via.placeholder.com/100x100/000000/FFFFFF?text=%E7%BC%BA%E7%88%B1%E5%8F%A6",
-            hunger: 70,
-            thirst: 80,
-            cleanliness: 80,
-            mood: "❤️❤️❤️❤️",
-            affection: 80,
-            level: 5,
-            experience: 90,
-            maxExperience: 100,
-            coins: 0
         }
     };
 
     let currentPet = "killerRabbit";
-    let playerCoins = 0; // 玩家金币
+    let playerCoins = 100; // 初始金币
 
     function updatePetStatus() {
         const pet = pets[currentPet];
@@ -277,7 +299,6 @@
         const progress = (pet.experience / pet.maxExperience) * 100;
         document.getElementById('levelProgress').style.width = progress + '%';
 
-        // 更新互动记录
         addLog(`切换到宠物: ${pet.name}`);
     }
 
@@ -322,42 +343,27 @@
         updatePetStatus();
     }
 
-    function work() {
-        // 打工小游戏
-        addLog('开始打工赚钱...');
-        playerCoins += 10;
-        addLog('你赚取了10金币');
-        updateCoins();
-    }
-
-    function updateCoins() {
-        document.getElementById('coinsValue').innerText = playerCoins;
-    }
-
-    function switchPet() {
-        if (currentPet === "killerRabbit") {
-            currentPet = "geniusCat";
-        } else if (currentPet === "geniusCat") {
-            currentPet = "lovelessDog";
-        } else {
-            currentPet = "killerRabbit";
-        }
+    function trainPet() {
+        const pet = pets[currentPet];
+        pet.experience += 15;
+        addLog('训练宠物！经验值增加');
         updatePetStatus();
+    }
+
+    function decorate() {
+        addLog('装饰了宠物窝！');
     }
 
     function buyPet(petName) {
         if (petName === "geniusCat" && playerCoins >= 100) {
             playerCoins -= 100;
             addLog('成功购买天才喵！');
-            pets["geniusCat"].level = 1; // 解锁宠物
         } else if (petName === "lovelessDog" && playerCoins >= 150) {
             playerCoins -= 150;
             addLog('成功购买缺爱汪！');
-            pets["lovelessDog"].level = 1; // 解锁宠物
         } else {
             addLog('金币不足，无法购买宠物');
         }
-        updateCoins();
     }
 
     updatePetStatus();
